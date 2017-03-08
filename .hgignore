@@ -1,0 +1,16 @@
+# use glob syntax.
+syntax: glob
+
+.idea
+.developve
+.DS_Store
+searchdb.json
+keyfile.json
+temp
+odrpyenv
+__pycache__
+.py27env
+kubrikaddress.txt
+dogekubrik.json
+dogeconf.json
+dogecoinconf.json
