@@ -3,9 +3,17 @@
 
 # Requirements
 
-libsodium
+* Python 3
+* running IPFS Daemon
+* running Dogecoin core
+* bottle
+* ipfs-api
+* libnacl
 
 # Installing
+
+For tests and developent, the system can be run from the terminal with 'python odr.py'. 
+For deployment we use apache2 as wsgi server. See deploy.sh for an example.
 
 # Running
 
