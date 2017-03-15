@@ -21,7 +21,7 @@ import json
 import copy
 import random
 import datetime
-import ipfsApi
+import ipfsapi
 import time
 import blockchaincom
 
@@ -219,7 +219,7 @@ def ipfsgateway(docid):
         allrefs = list(app.se.db["documents"].keys())
         if docid in allrefs:
             # serve doc
-            con = ipfsApi.Client('localhost', 5001)
+            con = ipfsapi.Client('localhost', 5001)
             oldpath = os.getcwd()
             os.chdir(os.path.join(oldpath, "temp"))
             file_to_serve = []
@@ -313,7 +313,7 @@ def update_file():
     # documentref = "".join([str(random.randrange(0,9)) for i in range(15)])  # in case ipfs not working
     #blockchainref = "".join([str(random.randrange(0,9)) for i in range(15)])  # in case blockchain not working
     print("connect to ipfs")
-    con = ipfsApi.Client('localhost', 5001)
+    con = ipfsapi.Client('localhost', 5001)
     if upload:
         if not checkbox == "on":
             return "File upload is only possible if you own the rights to the document. " \
@@ -325,12 +325,15 @@ def update_file():
             upload.save('temp', overwrite=True)
             print("adding file to ipfs")
             ref = con.add(os.path.join(tempdir, name + ext))
-            if len(ref) > 1:
-                docref = ref[0]['Hash']  # ipfs reference
+            if isinstance(ref, dict):
+                document_ref = ref['Hash']  # ipfs reference
+                documentfilename = ref['Name']
+            elif isinstance(ref, list):
+                document_ref = ref[0]['Hash']  # ipfs reference
                 documentfilename = os.path.split(ref[0]['Name'])[-1]
             else:
-                docref = ref['Hash'] # ipfs reference
-                documentfilename = ref['Name']
+                print("sorry, I do not understand what IPFS sends back to me as reference: ", ref)
+                raise Exception
             # pinn it
             print("pinning file to ipfs")
             con.pin_add(docref)
@@ -349,6 +352,7 @@ def update_file():
             app.constants.increase_upload_counter(app.se.db)  # increase daily upload counter
         except:
             print("blockchainupload failed")
+            blockchainref = [{"txid":"invalid"}]
     else:
         #app.se.load_db()  # if our db is empty, try to load it from disk
         if docref not in app.se.db['documents']:
@@ -437,15 +441,18 @@ def upload_file():
         print("saving file")
         upload.save('temp', overwrite=True)
         print("connect to ipfs")
-        con = ipfsApi.Client('localhost', 5001)
+        con = ipfsapi.Client('localhost', 5001)
         print("adding file to ipfs")
         ref = con.add(os.path.join(tempdir, name + ext))
-        if len(ref) > 1:
+        if isinstance(ref, dict):
+            document_ref = ref['Hash']  # ipfs reference
+            documentfilename = ref['Name']
+        elif isinstance(ref, list):
             document_ref = ref[0]['Hash']  # ipfs reference
             documentfilename = os.path.split(ref[0]['Name'])[-1]
         else:
-            document_ref = ref['Hash'] # ipfs reference
-            documentfilename = ref['Name']
+            print ("sorry, I do not understand what IPFS sends back to me as reference: ", ref)
+            raise Exception
         # pinn it
         print("pinning file to ipfs")
         con.pin_add(document_ref)
@@ -463,6 +470,7 @@ def upload_file():
         app.constants.increase_upload_counter(app.se.db) # increase daily upload counter
     except:
         print("blockchainupload failed")
+        blockchain_ref = [{"txid": "invalid"}]
     if not docid:
         #docid = "%d" %(app.se.db['lastid']+1)
         docid = document_ref
@@ -696,7 +704,7 @@ def bootstrap():
     #print(bc_data)
     if VERBOSE:
         print("Get all data from IPFS")
-    con = ipfsApi.Client('localhost', 5001)
+    con = ipfsapi.Client('localhost', 5001)
     added_keys="<ul>"
     for message in bc_data:
         if VERBOSE:

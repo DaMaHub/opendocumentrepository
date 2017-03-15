@@ -1,0 +1,14 @@
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+.DS_Store
+searchdb.json
+keyfile.json
+__pycache__
+dogeconf.json
+dogecoinconf.json
+libsodium.dylib

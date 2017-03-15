@@ -8,7 +8,7 @@
 * running Dogecoin core
 * bottle
 * ipfs-api
-* libnacl
+* libnacl >= 1.5.0
 
 # Installing
 
@@ -24,8 +24,11 @@ You also need a local dogecoin core daemon setup and running.
 
 # Known Issues
 
-For some transactions, dogecoin core reports an "Internal Server Error". 
+* For some transactions, dogecoin core reports an "Internal Server Error". 
 No idea what is happening there.
+* Especially on MacOS X  libnacl fails to find libsodium. An alternative is
+to just install it in the same directory where odr.py is situated.
+
 
 # License
 
