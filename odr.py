@@ -747,6 +747,9 @@ def bootstrap():
 if __name__ == '__main__':
     MULTITHREAD = False
     VERBOSE = True
+    # test if local temp directory exists, if not, create it
+    if not os.path.isdir('temp'):
+        os.mkdir('temp')
     if not MULTITHREAD:
         try:
             app.run(host='localhost', port=8081, debug=True, reloader=True)
