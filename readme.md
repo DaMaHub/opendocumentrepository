@@ -1,5 +1,24 @@
 # Open Document Repository
 
+A Network of distributed document storage server built upon IPFS and Blockchain.
+
+# Introduction
+
+Imagine you have a world-wide organisation. All the documents that this organisation creates 
+should be stored in a save and distributed way. All changes on one part of the world should be instantenously 
+mirrored to all other parts of the world. All changes should be tracked and authentic. Documents 
+should be stored with many copies in the network so that they are kept save (LOCKSS).
+
+This is the idea behind this project.
+
+# How does it work?
+
+All documents and the metadata get saved on IPFS (https://ipfs.io). All links to the metadata and to the documents
+are encrypted and saved to a blockchain. All nodes track the blockchain and retrieve all new documents and metadata
+from IPFS.
+
+If one node goes down, there are plenty of copies in the network. A new node just needs to read the blockchain and retrieve all
+published data to be quickly up to date again.
 
 # Requirements
 
@@ -29,6 +48,7 @@ No idea what is happening there.
 * Especially on MacOS X  libnacl fails to find libsodium. An alternative is
 to just install it in the same directory where odr.py is situated.
 
+Please see also the FAQ in the doc folder.
 
 # License
 
