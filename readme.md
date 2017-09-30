@@ -48,7 +48,7 @@ No idea what is happening there.
 * Especially on MacOS X  libnacl fails to find libsodium. An alternative is
 to just install it in the same directory where odr.py is situated.
 
-Please see also the FAQ in the doc folder.
+Please see also the [FAQ](https://github.com/kubrik-engineering/opendocumentrepository/blob/master/doc/faq.md) in the doc folder.
 
 # License
 
